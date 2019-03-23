@@ -7,13 +7,27 @@ arraySrc = ['i/breuer-building.jpg',
 			'i/IAC.jpg',
 			'i/new-museum.jpg'];
 
-let step = 0;
+let step = -1;
 function nextStep () {
-	console.log('next');
+	if (step < arraySrc.length - 1){
+		step += 1;
+	} else {
+		step = 0;
+	}
+	img.src = arraySrc[step];
+	return step;
 }
+
 function prevStep() {
-	console.log('prev');
+	if (step <= 0) {
+		step = arraySrc.length - 1;
+	} else {
+		step -= 1;
+	}
+	img.src = arraySrc[step];
+	return step;
 }
+
 next.onclick = nextStep;
 prev.onclick = prevStep;
 
