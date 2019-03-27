@@ -30,4 +30,3 @@ function prevStep() {
 
 next.onclick = nextStep;
 prev.onclick = prevStep;
-
