@@ -8,14 +8,13 @@ arraySrc = ['i/breuer-building.jpg',
 			'i/new-museum.jpg'];
 
 let step = -1;
-function nextStep () {
+function nextStep() {
 	if (step < arraySrc.length - 1){
 		step += 1;
 	} else {
 		step = 0;
 	}
 	img.src = arraySrc[step];
-	return step;
 }
 
 function prevStep() {
@@ -25,7 +24,6 @@ function prevStep() {
 		step -= 1;
 	}
 	img.src = arraySrc[step];
-	return step;
 }
 
 next.onclick = nextStep;
