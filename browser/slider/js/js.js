@@ -7,17 +7,17 @@ const srcArray = [
   "i/airmax.png"
 ];
 
-console.log(image);
-
 let i = 0; 
 image.src = srcArray[i];
 
 setInterval(() => {  
+  i = i + 1;
   if (i < srcArray.length) {
     image.src = srcArray[i];
-    i = i + 1;
   } else {
     i = 0;
+    image.src = srcArray[i];
   };
+  console.log(image);
 }, 5000);
 
