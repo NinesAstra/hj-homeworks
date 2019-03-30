@@ -1,7 +1,7 @@
 const middleArr = ['sounds/middle/first.mp3', 'sounds/middle/second.mp3', 'sounds/middle/third.mp3', 'sounds/middle/fourth.mp3', 'sounds/middle/fifth.mp3'];
 const higherArr = ['sounds/higher/first.mp3', 'sounds/higher/second.mp3', 'sounds/higher/third.mp3', 'sounds/higher/fourth.mp3', 'sounds/higher/fifth.mp3'];
 const lowerArr = ['sounds/lower/first.mp3', 'sounds/lower/second.mp3', 'sounds/lower/third.mp3', 'sounds/lower/fourth.mp3', 'sounds/lower/fifth.mp3'];
-const keysCollection = document.getElementsByTagName('audio');
+const keysCollection = document.getElementsByClassName('set');
 const liCollection = document.getElementsByTagName('li');
 const changeRegister = document.getElementsByTagName('ul')[0]; 
 
