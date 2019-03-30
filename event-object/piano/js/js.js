@@ -1,13 +1,14 @@
 const middleArr = ['sounds/middle/first.mp3', 'sounds/middle/second.mp3', 'sounds/middle/third.mp3', 'sounds/middle/fourth.mp3', 'sounds/middle/fifth.mp3'];
 const higherArr = ['sounds/higher/first.mp3', 'sounds/higher/second.mp3', 'sounds/higher/third.mp3', 'sounds/higher/fourth.mp3', 'sounds/higher/fifth.mp3'];
 const lowerArr = ['sounds/lower/first.mp3', 'sounds/lower/second.mp3', 'sounds/lower/third.mp3', 'sounds/lower/fourth.mp3', 'sounds/lower/fifth.mp3'];
-const keysCollection = document.getElementsByClassName('set');
+const keysCollection = document.getElementsByTagName('audio');
 const liCollection = document.getElementsByTagName('li');
 const changeRegister = document.getElementsByTagName('ul')[0]; 
 
 
 for (let i = 0; i < keysCollection.length; i++) {
-   keysCollection[i].src = middleArr[i]; 
+   keysCollection[i].src = middleArr[i];
+   console.log(keysCollection[i].src);
 }
 
 function makeSound(event) {
@@ -18,7 +19,7 @@ function makeSound(event) {
 
 function ifKeydown(event) {
 
-	if (event.altKey && event.repeat) {
+	if (event.altKey == true) {
     	console.log('нажата Alt')
         changeRegister.classList.remove('middle', 'lower');
         changeRegister.classList.add('higher');
@@ -27,7 +28,7 @@ function ifKeydown(event) {
     	console.log(keysCollection[i].src);
     } 
     
-    } else if (event.shiftKey && event.repeat) {
+    } else if (event.shiftKey == true) {
         changeRegister.classList.remove('middle', 'higher');
         changeRegister.classList.add('lower');
         for (let i = 0; i < keysCollection.length; i++) {
