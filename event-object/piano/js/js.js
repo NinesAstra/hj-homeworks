@@ -25,8 +25,8 @@ function makeSound(event, num) {
 };
 
 for (let num = 0, num < liCollection.length, num++) {
-    liCollection[num].addEventListener(click, function () {
-        makeSound(event, num)
+    liCollection[num].addEventListener('click', function () {
+        makeSound(event, num);
     });
 }
 
