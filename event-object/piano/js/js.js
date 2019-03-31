@@ -5,7 +5,26 @@ const keysCollection = document.getElementsByTagName('audio');
 const liCollection = document.getElementsByTagName('li');
 const changeRegister = document.getElementsByTagName('ul')[0]; 
 
+// ------версия 2------
+function makeSound(event, num) {
+    let audio = event.currentTarget.getElementsByTagName('a')[0];
+    if(event.altKey) {
+        audio.src = higherArr[num];
+    } else if (event.shiftKey) {
+        audio.src = lowerArr[num];
+    } else {
+        audio.src = middleArr[num];
+    }
+    audio.play();
+};
 
+for (let num = 0, num < liCollection.length, num++) {
+    liCollection[num].addEventListener(click, function () {
+        makeSound(event, num)
+    });
+}
+
+/*----версия 1-----
 for (let i = 0; i < keysCollection.length; i++) {
    keysCollection[i].src = middleArr[i];
    console.log(keysCollection[i].src);
@@ -53,3 +72,4 @@ document.addEventListener('keyup', def);
 for (const key of liCollection) {
 	key.addEventListener('click', makeSound);
 }
+-----конец версии 1--------*/
