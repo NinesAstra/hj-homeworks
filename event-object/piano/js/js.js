@@ -9,10 +9,16 @@ const changeRegister = document.getElementsByTagName('ul')[0];
 function makeSound(event, num) {
     let audio = event.currentTarget.getElementsByTagName('a')[0];
     if(event.altKey) {
+        changeRegister.classList.remove('middle', 'lower');
+        changeRegister.classList.add('higher');
         audio.src = higherArr[num];
     } else if (event.shiftKey) {
+        changeRegister.classList.remove('middle', 'higher');
+        changeRegister.classList.add('lower');
         audio.src = lowerArr[num];
     } else {
+        changeRegister.classList.remove('lower', 'higher');
+        changeRegister.classList.add('middle');
         audio.src = middleArr[num];
     }
     audio.play();
