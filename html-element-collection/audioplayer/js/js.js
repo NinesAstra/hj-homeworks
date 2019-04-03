@@ -2,8 +2,6 @@
 const mediaplayer = document.getElementsByClassName('mediaplayer')[0],
 player = mediaplayer.getElementsByTagName('audio')[0],
 btnPlayPause = mediaplayer.getElementsByClassName('playstate')[0],
-statePlay = btnPlayPause.getElementsByClassName('fa-play')[0],
-statePause = btnPlayPause.getElementsByClassName('fa-pause')[0],
 btnStop = mediaplayer.getElementsByClassName('stop')[0],
 btnNext = mediaplayer.getElementsByClassName('next')[0],
 btnBack = mediaplayer.getElementsByClassName('back')[0],
