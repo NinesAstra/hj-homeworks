@@ -8,8 +8,6 @@ function music() {
 	const next = this.getElementsByTagName('audio')[0];
 	next.play();
 	prev = next;
-	console.log(prev);
-	return prev;
 };
 
 for (const li of liCollection) {
