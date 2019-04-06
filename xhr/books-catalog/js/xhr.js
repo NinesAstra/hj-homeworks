@@ -37,8 +37,9 @@ function outInfo(event) {
 	    	function findI(li) {
 	    		return li.cover.small === target.childNodes[0].src;
 	    	}
+	    	console.log(lis[i].author);
 	      target.dataset.title = lis[i].title;
-	      target.dataset.author = lis[i].author;
+	      target.dataset.author = lis[i].author.name;
 	      target.dataset.info = lis[i].info;
 	      target.dataset.price = lis[i].price;
 	    }
