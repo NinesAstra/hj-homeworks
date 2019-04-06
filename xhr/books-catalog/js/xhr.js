@@ -46,3 +46,14 @@ function outInfo(event) {
 }
 
 content.addEventListener('click', outInfo);
+
+
+//------Вариант 2 Простой
+// function load() {
+// 	lis = JSON.parse(xhr.responseText);
+// 	let string = '';
+// 	for(let li of lis){
+// 		string = string + '<li data-title="'+li.title+'" data-author="'+li.author.name+'" data-info="'+li.info+'" data-price="'+li.price+'"><img src="'+li.cover.small+'"></li>';
+// 	}
+// 	content.innerHTML = string;
+// }
