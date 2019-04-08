@@ -8,13 +8,13 @@ let i = 0;
 
 
 for (let checkbox of checkboxes){
-	checkbox.addEventListener('input', change);
+	checkbox.addEventListener('change', change);
 }
 /* код срабатывания при загрузке */
 document.addEventListener("DOMContentLoaded", count);
 function count() {
 	for(let checkbox of checkboxes){
-		if (checkbox.checked === true){
+		if (checkbox.checked){
 			i++;
 		}
 	}
@@ -23,14 +23,12 @@ function count() {
 }
 
 function change (event){
-    console.log(event.currentTarget);
-
 	 if (event.currentTarget.checked) {
-		event.currentTarget.checked = false;
-	 	i--;
-	 } else {
-		event.currentTarget.checked = true;
+		//event.currentTarget.checked = false;
 	 	i++;
+	 } else {
+		//event.currentTarget.checked = true;
+	 	i--;
 	 }
    output.value = i +' из '+ checksAll;
    done(); 
