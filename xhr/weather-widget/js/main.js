@@ -1,5 +1,5 @@
 const request = new XMLHttpRequest();
-request.open('GET', 'https://neto-api.herokuapp.com/weather', true);
+request.open('GET', 'https://neto-api.herokuapp.com/weather');
 request.send();
 
 request.addEventListener('load',onLoad);
