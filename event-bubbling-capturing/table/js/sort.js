@@ -1,5 +1,7 @@
 'use strict';
 
+let count = 0;
+
 function handleTableClick(event) {
    if (event.target.classList.contains('prop__name')) {
   if (count % 2 === 0) { 
