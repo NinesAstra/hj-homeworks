@@ -1,9 +1,13 @@
 'use strict';
 
 const wrapBtns = document.querySelector('.wrap-btns');
-
+let count;
 var localValue = localStorage.getItem('myKey');
-let count = localValue;
+if (localValue === null) {
+	count = 0;
+} else {
+	count = localValue;
+}
 
 
 counter.textContent = count;
