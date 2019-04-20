@@ -18,27 +18,29 @@ const output = e.target.querySelector('.error-message');
 var sendForm = new Promise(function(resolve, reject) {
 
 
-	//let formData = new FormData(event.target);
+	let formData = new FormData(e.target);
 
-    // Собираем данные формы в объект
-    // let obj = {};
-    // formData.forEach((value, key) => obj[key] = value);
-    // console.log(obj);
-    // JSON.stringify(obj);
+    //Собираем данные формы в объект
+    let obj = {};
+    formData.forEach((value, key) => obj[key] = value);
+    console.log(obj);
+    const obj1 = JSON.stringify(obj);
+	console.log(obj1);
 	
-	const targets = e.target;
-	const arrData = new Array;
-	for (let input of targets) {
-		if (input.name) {
-			arrData.push(`${input.name}: ${input.value}`);
-		}
-	}
-	console.log(arrData);
-	const testString = arrData.join(', ');
+
+	// const targets = e.target;
+	// const arrData = new Array;
+	// for (let input of targets) {
+	// 	if (input.name) {
+	// 		arrData.push(`${input.name}: ${input.value}`);
+	// 	}
+	// }
+	// console.log(arrData);
+	// const testString = arrData.join(', ');
 
 
-  	const formData = JSON.stringify(testString);
-  	console.log(formData);
+  	//const formData = JSON.stringify(testString);
+  	//console.log(formData);
 
     // Открываем новый XHR
     var request = new XMLHttpRequest();
@@ -56,7 +58,7 @@ var sendForm = new Promise(function(resolve, reject) {
         ));
       }
     };
-    request.send(formData);
+    request.send(obj1);
 
 });
 
