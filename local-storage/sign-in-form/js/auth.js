@@ -17,24 +17,24 @@ e.preventDefault();
 const output = e.target.querySelector('.error-message');
 var sendForm = new Promise(function(resolve, reject) {
 
-  const targets = e.target;
-  let user = {};
-  for (let field of targets) {
-    user[field.name] = field.value;
-  }
-  console.log(user);
-  user = JSON.stringify(user);
-  console.log(user);
+  // const targets = e.target;
+  // let user = {};
+  // for (let field of targets) {
+  //   user[field.name] = field.value;
+  // }
+  // console.log(user);
+  // user = JSON.stringify(user);
+  // console.log(user);
 	
 
-  // let formData = new FormData(e.target);
+  let formData = new FormData(e.target);
 
- //    //Собираем данные формы в объект
- //    let obj = {};
- //    formData.forEach((value, key) => obj[key] = value);
- //    console.log(obj);
- //    const obj1 = JSON.stringify(obj);
-	// console.log(obj1);
+    //Собираем данные формы в объект
+    let user = {};
+    formData.forEach((value, key) => user[key] = value);
+    console.log(user);
+    user = JSON.stringify(user);
+	  console.log(user);
 	
 
 	// const targets = e.target;
@@ -53,7 +53,11 @@ var sendForm = new Promise(function(resolve, reject) {
 
     // Открываем новый XHR
     var request = new XMLHttpRequest();
+    if (e.target.classList.contains('sign-in-htm')) {
     request.open('POST','https://neto-api.herokuapp.com/signin');
+  } else {
+    request.open('POST','https://neto-api.herokuapp.com/signup');
+  }
     // После загрузки запроса
     // проверяем, был ли он успешным
     request.onload = function() {
