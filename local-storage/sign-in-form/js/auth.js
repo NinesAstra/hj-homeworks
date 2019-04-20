@@ -17,15 +17,24 @@ e.preventDefault();
 const output = e.target.querySelector('.error-message');
 var sendForm = new Promise(function(resolve, reject) {
 
+  const targets = e.target;
+  let user = {};
+  for (let field of targets) {
+    user[field.name] = field.value;
+  }
+  console.log(user);
+  user = JSON.stringify(user);
+  console.log(user);
+	
 
-	let formData = new FormData(e.target);
+  // let formData = new FormData(e.target);
 
-    //Собираем данные формы в объект
-    let obj = {};
-    formData.forEach((value, key) => obj[key] = value);
-    console.log(obj);
-    const obj1 = JSON.stringify(obj);
-	console.log(obj1);
+ //    //Собираем данные формы в объект
+ //    let obj = {};
+ //    formData.forEach((value, key) => obj[key] = value);
+ //    console.log(obj);
+ //    const obj1 = JSON.stringify(obj);
+	// console.log(obj1);
 	
 
 	// const targets = e.target;
@@ -58,7 +67,7 @@ var sendForm = new Promise(function(resolve, reject) {
         ));
       }
     };
-    request.send(obj1);
+    request.send(user);
 
 });
 
@@ -75,7 +84,7 @@ var sendForm = new Promise(function(resolve, reject) {
 	  }
 	});
 	sendForm.catch(function(result) {
-	  console.log("Что-то пошло не так ", result);
+	  output.value = `Что-то пошло не так ${result}`;
 	});
 }
 
