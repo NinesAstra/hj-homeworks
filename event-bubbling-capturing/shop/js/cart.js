@@ -2,6 +2,7 @@
 const showMoreBtn = document.querySelector('.show-more');
 
 function addToCartClick(event) {
+	event.preventDefault();
 	event.target.title = event.target.dataset.title;
 	event.target.price = event.target.dataset.price;
 	addToCart(event.target);
