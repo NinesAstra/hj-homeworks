@@ -17,6 +17,14 @@ e.preventDefault();
 const output = e.target.querySelector('.error-message');
 var sendForm = new Promise(function(resolve, reject) {
 
+  let formData = new FormData(e.target);
+
+    //Собираем данные формы в объект
+    let user = {};
+    formData.forEach((value, key) => user[key] = value);
+    user = JSON.stringify(user);
+	
+
   // const targets = e.target;
   // let user = {};
   // for (let field of targets) {
@@ -25,17 +33,7 @@ var sendForm = new Promise(function(resolve, reject) {
   // console.log(user);
   // user = JSON.stringify(user);
   // console.log(user);
-	
 
-  let formData = new FormData(e.target);
-
-    //Собираем данные формы в объект
-    let user = {};
-    formData.forEach((value, key) => user[key] = value);
-    console.log(user);
-    user = JSON.stringify(user);
-	  console.log(user);
-	
 
 	// const targets = e.target;
 	// const arrData = new Array;
@@ -47,7 +45,6 @@ var sendForm = new Promise(function(resolve, reject) {
 	// console.log(arrData);
 	// const testString = arrData.join(', ');
 
-
   	//const formData = JSON.stringify(testString);
   	//console.log(formData);
 
@@ -58,6 +55,7 @@ var sendForm = new Promise(function(resolve, reject) {
   } else {
     request.open('POST','https://neto-api.herokuapp.com/signup');
   }
+  request.setRequestHeader('Content-Type','application/json');
     // После загрузки запроса
     // проверяем, был ли он успешным
     request.onload = function() {
@@ -79,7 +77,6 @@ var sendForm = new Promise(function(resolve, reject) {
       result = JSON.parse(result);
 	  console.log("Ответ 200 ", result, result.error);
 	  if (result.error) {
-	  	console.log(output);
 	  	output.value = result.message;
 	  } else if (output.parentNode.classList.contains('sign-in-htm')){
 	  	output.value = `Пользователь ${result.name} успешно авторизован`;
