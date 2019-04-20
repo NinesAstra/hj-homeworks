@@ -66,8 +66,10 @@ var sendForm = new Promise(function(resolve, reject) {
 	  if (result.error) {
 	  	console.log(output);
 	  	output.value = result.message;
+	  } else if (output.parentNode.classList.contains('sign-in-htm')){
+	  	output.value = `Пользователь ${result.name} успешно авторизован`;
 	  } else {
-	  	output.value = result.name;
+	  	output.value = `Пользователь ${result.name} успешно зарегистрирован`;
 	  }
 	});
 	sendForm.catch(function(result) {
