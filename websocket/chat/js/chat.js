@@ -102,3 +102,9 @@ window.addEventListener('beforeunload', (event) => {
 	//закрываем соединение при закрытии страницы
  	connect.close(1000, 'Работа закончена')
 });
+
+
+// проверка работоспособности закрытия соединения
+// setTimeout(() => {
+//   connect.close();  
+// }, 5000);
