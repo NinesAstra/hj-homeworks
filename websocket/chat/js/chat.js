@@ -1,16 +1,15 @@
 'use strict';
-const chat = document.querySelector('.chat');
-
-const chatStatus = chat.querySelector('.chat-status');
-const messages = chat.querySelector('.messages');
-const messagesTemplates = chat.querySelector('.messages-templates');
-const messagesContent = chat.querySelector('.messages-content');
-const messageStatus = chat.querySelector('.message-status');
-const message = chat.querySelectorAll('.message');
-const messagePersonal = chat.querySelector('.message-personal');
-const messageInput = chat.querySelector('.message-input');
-const messageSubmit = chat.querySelector('.message-submit');
-const messageStatus1 = messageStatus.cloneNode(true);
+const chat = document.querySelector('.chat'),
+chatStatus = chat.querySelector('.chat-status'),
+messages = chat.querySelector('.messages'),
+messagesTemplates = chat.querySelector('.messages-templates'),
+messagesContent = chat.querySelector('.messages-content'),
+messageStatus = chat.querySelector('.message-status'),
+message = chat.querySelectorAll('.message'),
+messagePersonal = chat.querySelector('.message-personal'),
+messageInput = chat.querySelector('.message-input'),
+messageSubmit = chat.querySelector('.message-submit'),
+messageStatus1 = messageStatus.cloneNode(true);
 
 
 //открываю соединение	
