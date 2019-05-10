@@ -1,141 +1,135 @@
 'use strict';
-window.addEventListener("load", function()
-{
-    const canvas = document.querySelector('#draw'); 
-    const ctx = canvas.getContext('2d');
+const canvas = document.getElementById('draw'),
+      ctx = canvas.getContext('2d');
 
-    function draw()
-    {
-        ctx.clearRect(0, 0, canvas.width, canvas.height);
-        ctx.beginPath();
-        ctx.moveTo(0, 0); 
-        ctx.lineTo(canvas.width, canvas.height); 
-        ctx.moveTo(canvas.width, 0); 
-        ctx.lineTo(0, canvas.height); 
-        ctx.stroke();
-    }
-    function resize()
-    {
-        canvas.width = window.innerWidth;
-        canvas.height = window.innerHeight;
-        draw();
-    }
-    window.addEventListener("resize", resize);
-    resize();
-});
+canvas.width = window.innerWidth;
+canvas.height = window.innerHeight;
 
-const BRUSH_RADIUS = 6;
+// отслеживаем изменение размера окна
+window.addEventListener('resize', updateAfterResizing);
 
-const doodle = document.getElementById("doodle");
-const undoBtn = document.getElementById("undo");
-const redoBtn = document.getElementById("redo");
-const clearBtn = document.getElementById("clear");
-const ctx = doodle.getContext("2d");
+// очищение и обновление холста после изменения размера
+function updateAfterResizing() {  
+  canvas.width = window.innerWidth;
+  canvas.height = window.innerHeight;
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+  curves = [];
+}
 
+// массив для точек
 let curves = [];
-let undone = [];
+// переменная, отображающая рисование в данный момент
 let drawing = false;
-let weird = false;
+// фиксация нажатой клавиши shift
+let shiftKey = false;
+// нужно ли увеличивать толщину линии
+let lineWidthInc = true;
+// необходима ли перерисовка кривой
 let needsRepaint = false;
+// толщина линии и тон
+let lineWidth = 5;
+let hue = 0;
 
-// curves and figures
+// конструктор для точки
+function Point(x, y, lineWidth, hue) {
+  this.x = x;
+  this.y = y;
+  this.lineWidth = lineWidth;
+  this.hue = hue;
+}
+
+// создание окружности в начальной точке
 function circle(point) {
-  console.log(point);
   ctx.beginPath();
-  ctx.arc(...point, BRUSH_RADIUS / 2, 0, 2 * Math.PI);
+  ctx.arc(point.x, point.y,  point.lineWidth/2, 0, 2 * Math.PI);
+  ctx.fillStyle = `hsl(${point.hue}, 100%, 50%)`;
   ctx.fill();
 }
-
-function smoothCurveBetween (p1, p2) {
-  // Bezier control point
-  const cp = p1.map((coord, idx) => (coord + p2[idx]) / 2);
-  ctx.quadraticCurveTo(...p1, ...cp);
-}
-
-function smoothCurve(points) {
-  ctx.beginPath();
-  ctx.lineWidth = BRUSH_RADIUS;
-  ctx.lineJoin = 'round';
-  ctx.lineCap = 'round';
-
-  ctx.moveTo(...points[0]);
-
-  for(let i = 1; i < points.length - 1; i++) {
-    smoothCurveBetween(points[i], points[i + 1]);
+// изменение тона
+function setHue(shiftKey) {
+  shiftKey ? hue-- : hue++;
+  if (hue > 359) {
+    hue = 0;
+  } else if (hue < 0) {
+    hue = 359;
   }
-
-  ctx.stroke();
+}
+// изменение толщины линии
+function setLineWidth() {
+  lineWidthInc ? lineWidth++ : lineWidth--;
+    if (lineWidth >= 100) {
+      lineWidthInc = false;    
+    } else if (lineWidth <= 5) {
+      lineWidthInc = true;
+    }
 }
 
-// events
-function makePoint(x, y, reflect = false) {
-  return  reflect ? [y, x] : [x, y];
-};
+// отрисовка кривой
+function smoothCurve(points) {  
+  for(let i = 0; i < points.length - 1; i++) {
+    
+    const poinFrom = points[i];
+    const pointTo = points[i + 1];
+    
+    // рисуем линию к предыдущей точке
+    ctx.beginPath();
+    ctx.lineJoin = 'round';
+    ctx.lineCap = 'round';
+    ctx.lineWidth = poinFrom.lineWidth;
+    ctx.strokeStyle = `hsl(${poinFrom.hue}, 100%, 50%)`;
+    ctx.lineTo(poinFrom.x, poinFrom.y);
+    ctx.stroke();
+    
+    // рисуем линию к следующей точке от предыдущей   
+    ctx.lineWidth = pointTo.lineWidth;
+    ctx.lineTo(pointTo.x, pointTo.y);
+    ctx.stroke();
+    ctx.closePath();    
+  }
+}
 
-
-doodle.addEventListener("mousedown", (evt) => {
+canvas.addEventListener("mousedown", (event) => {  
   drawing = true;
-  weird = evt.shiftKey; // press shift to make things weird =)
-  undone = []; // reset the undone stack
-
-  const curve = []; // create a new curve
-
-  curve.push(makePoint(evt.offsetX, evt.offsetY, weird)); // add a new point
-  curves.push(curve); // add the curve to the array of curves
-  needsRepaint = true;
+  shiftKey = event.shiftKey; // определяем нужно увеличивать или уменьшать оттенок 
+  const curve = []; // создаем новую кривую  
+  curve.push(new Point(event.offsetX, event.offsetY, lineWidth, hue)); // добавляем координаты точки и ее параметры
+  curves.push(curve); // добавляем ее в массив кривых
+  needsRepaint = true; // устанавливаем необходимость перерисовки холста
+  // изменяем толщину и тон линии
+  setHue(shiftKey);
+  setLineWidth();
 });
 
-doodle.addEventListener("mouseup", (evt) => {
+canvas.addEventListener("mouseup", (event) => {
   drawing = false;
 });
 
-doodle.addEventListener("mouseleave", (evt) => {
+canvas.addEventListener("mouseleave", (event) => {
   drawing = false;
 });
 
-doodle.addEventListener("mousemove", (evt) => {
-  if (drawing) {
-    // add a point
-    const point = makePoint(evt.offsetX, evt.offsetY, weird)
-    curves[curves.length - 1].push(point);
-    needsRepaint = true;
+canvas.addEventListener('dblclick', updateAfterResizing);
+
+canvas.addEventListener("mousemove", (event) => {
+  if (drawing) {    
+    curves[curves.length - 1].push(new Point(event.offsetX, event.offsetY, lineWidth, hue));
+    needsRepaint = true;   
+    shiftKey = event.shiftKey; // определяем нужно увеличивать или уменьшать оттенок  
+    setHue(shiftKey);
+    setLineWidth();
   }
 });
 
-undoBtn.addEventListener("click", (evt) => {
-  if (curves.length > 0) {
-    undone.push(curves.pop());
-  }
-
-  needsRepaint = true;
-});
-
-redoBtn.addEventListener("click", (evt) => {
-  if (undone.length > 0) {
-    curves.push(undone.pop());
-  }
-
-  needsRepaint = true;
-});
-
-clearBtn.addEventListener("click", (evt) => {
-  curves = [];
-  undone = [];
-
-  needsRepaint = true;
-});
-
-// rendering
+// рендеринг
 function repaint () {
-  // clear before repainting
-  ctx.clearRect(0, 0, doodle.width, doodle.height);
+  // очищаем холст, перед отрисовкой
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
 
   curves
     .forEach((curve) => {
-      // first...
+      
       circle(curve[0]);
-
-      // the body is compraised of lines
+      
       smoothCurve(curve);
     });
 }
@@ -143,10 +137,10 @@ function repaint () {
 function tick () {
   if(needsRepaint) {
     repaint();
-    needsRepaint = false;
+    needsRepaint = false;   
   }
 
   window.requestAnimationFrame(tick);
 }
 
-tick(); 
+tick();
